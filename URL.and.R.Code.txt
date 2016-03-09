@@ -1,0 +1,55 @@
+Michael Reyes
+CIS 320
+T 6:10pm – 10:00pm
+2 March 2016
+
+URL & R Code
+
+URL
+http://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD
+
+R Code
+
+#loading the dataset
+	data1<-read.csv("http://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD", header=T)
+
+#structure of the data
+	str(data1)
+
+#summary of the data
+	summary(data1)
+
+#what crimes were commited
+	summary(data1$Primary.Type)
+
+#the number of arrest made
+	summary(data1$Arrest)
+
+#mode of the Primary Types
+	names(sort(-table(data1$Primary.Type)))
+
+#bar graph of the Primary type
+	data1.pt<-table(data1$Primary.Type)
+	barplot(data1.pt[order(data1.pt, decreasing=T)])
+
+#mode of IUCR code
+#https://data.cityofchicago.org/Public-Safety/Chicago-Police-Department-Illinois-Uniform-Crime-R/c7ck-438e
+	names(sort(-table(data1$IUCR)))
+
+#mode of Location Description
+	names(sort(-table(data1$Location.Description)))
+
+#create a new dataset which ignores the NA
+	data2<-na.omit(data1)
+
+#mode of Community Areas
+	names(sort(-table(data2$Community.Area)))
+
+#creating a histogram, with bins (using data2)
+#https://portal.chicagopolice.org/portal/page/portal/ClearPath/Communities/Districts/community_area.pdf
+	hist(data2$Community.Area,breaks=rep(min(data2$Community.Area):max(data2$Community.Area),each=2)+c(-.4,.4),
+		main="Distribution of Crime between Community Areas",
+		xlab="Community Area)",
+		ylab="Crime Density",
+		col="grey"
+		)
